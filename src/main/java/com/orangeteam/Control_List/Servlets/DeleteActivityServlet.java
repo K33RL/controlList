@@ -1,7 +1,7 @@
 package com.orangeteam.Control_List.Servlets;
 
+import com.orangeteam.Control_List.dao.ActivityDAO;
 import com.orangeteam.Control_List.dao.ActivityDAOImpl;
-import com.orangeteam.Control_List.dao.UserDAOImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,18 +9,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.util.Optional;
+
+import static com.orangeteam.Control_List.db.DatabaseContextListener.DB_ATTRIBUTE;
 
 @WebServlet("/deleteActivity")
 public class DeleteActivityServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        try {
-            int id = Integer.parseInt(req.getParameter("id"));
-            ActivityDAOImpl.remove(id);
-            resp.sendRedirect(req.getContextPath() + "/user_activity");
-        } catch (Exception e) {
-            getServletContext().getRequestDispatcher("/user_activity.jsp").forward(req, resp);
+        Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
+        if (dbConn.isPresent()) {
+            ActivityDAO activityDAO = new ActivityDAOImpl(dbConn.get());
+            try {
+                int id = Integer.parseInt(req.getParameter("id"));
+                activityDAO.remove(id);
+                resp.sendRedirect(req.getContextPath() + "/user_activity");
+            } catch (Exception e) {
+                getServletContext().getRequestDispatcher("/user_activity.jsp").forward(req, resp);
+            }
+        } else {
+            // обработка отсутствия коннекта к бд, страничка какая то мб
         }
+
     }
 }

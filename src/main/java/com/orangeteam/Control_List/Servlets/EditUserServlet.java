@@ -1,8 +1,7 @@
 package com.orangeteam.Control_List.Servlets;
 
-import com.orangeteam.Control_List.dao.ActivityDAOImpl;
+import com.orangeteam.Control_List.dao.UserDAO;
 import com.orangeteam.Control_List.dao.UserDAOImpl;
-import com.orangeteam.Control_List.model.Activity;
 import com.orangeteam.Control_List.model.User;
 
 import javax.servlet.ServletException;
@@ -11,40 +10,54 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.OffsetDateTime;
+import java.sql.Connection;
+import java.util.Optional;
+
+import static com.orangeteam.Control_List.db.DatabaseContextListener.DB_ATTRIBUTE;
 
 @WebServlet("/editUser")
 public class EditUserServlet extends HttpServlet {
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
-        try {
-            int user_id = Integer.parseInt(req.getParameter("id"));
-            User user = UserDAOImpl.getById(user_id);
-            if (user != null) {
+
+        Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
+        if (dbConn.isPresent()) {
+            UserDAO userDao = new UserDAOImpl(dbConn.get());
+            try {
+                int user_id = Integer.parseInt(req.getParameter("id"));
+                Optional<User> user = userDao.getById(user_id);
                 req.setAttribute("user", user);
                 getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
-            } else {
+            } catch (Exception e) {
                 getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);
             }
-        } catch (Exception e) {
-            getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);
+        } else {
+            // обработка отсутствия коннекта к бд, страничка какая то мб
         }
+
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        try {
-            int id = Integer.parseInt(req.getParameter("id"));
-            String name = req.getParameter("name");
-            String surname = req.getParameter("surname");
-            User user = new User(id, name, surname);
-            UserDAOImpl.update(user);
-            resp.sendRedirect(req.getContextPath() + "/users");
-        } catch (Exception e) {
-            getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
+        Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
+        if (dbConn.isPresent()) {
+            UserDAO userDao = new UserDAOImpl(dbConn.get());
+            try {
+                int id = Integer.parseInt(req.getParameter("id"));
+                String name = req.getParameter("name");
+                String surname = req.getParameter("surname");
+                User user = new User(id, name, surname);
+                userDao.update(user);
+                resp.sendRedirect(req.getContextPath() + "/users");
+            } catch (Exception e) {
+                getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
+            }
+        } else {
+            // обработка отсутствия коннекта к бд, страничка какая то мб
         }
+
     }
 }

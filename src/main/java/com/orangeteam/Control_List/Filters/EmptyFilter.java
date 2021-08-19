@@ -5,7 +5,7 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 
-@WebFilter(servletNames = "FormServlet")
+@WebFilter(servletNames = {"UserFormServlet", "ActivityFormServlet"})
 public class EmptyFilter implements Filter {
 
     private FilterConfig filterConfig;
