@@ -35,7 +35,7 @@
         <hr>
         <div class="container text-left">
 
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/user_form" class="btn btn-success">Add
                 New User</a>
         </div>
         <br>
@@ -57,10 +57,9 @@
                     <td><c:out value="${user.id}"/></td>
                     <td><c:out value="${user.name}"/></td>
                     <td><c:out value="${user.surname}"/></td>
-                    <td><c:out value="${user.useractivities}"/></td>
-                    <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <a
-                                href="delete?id=<c:out value='${user.id}' />">Delete</a></td>
+                    <td><a href="user_activities?id=<c:out value='${user.id}'/>>">activity</a></td>
+                    <td><a href="editUser?id=<c:out value='${user.id}' />">Edit</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp; <a href="deleteUser?id=<c:out value='${user.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
 

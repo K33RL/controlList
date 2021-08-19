@@ -35,7 +35,7 @@
         <hr>
         <div class="container text-left">
 
-            <a href="<%=request.getContextPath()%>/new" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/activity_form" class="btn btn-success">Add
                 New UserActivity</a>
         </div>
         <br>
@@ -51,16 +51,16 @@
             </thead>
             <tbody>
 
-            <c:forEach var="userActivity" items="${listUser}">
+            <c:forEach var="userActivity" items="${activityList}">
 
                 <tr>
-                    <td><c:out value="${userActivities.id}"/></td>
-                    <td><c:out value="${userActivities.idUser}"/></td>
-                    <td><c:out value="${userActivities.time}"/></td>
-                    <td><c:out value="${userActivities.activities}"/></td>
-                    <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a>
+                    <td><c:out value="${userActivity.id}"/></td>
+                    <td><c:out value="${userActivity.user_id}"/></td>
+                    <td><c:out value="${userActivity.time}"/></td>
+                    <td><c:out value="${userActivity.activities}"/></td>
+                    <td><a href="editActivity?id=<c:out value='${userActivity.id}' />">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp; <a
-                                href="delete?id=<c:out value='${user.id}' />">Delete</a></td>
+                                href="deleteActivity?id=<c:out value='${userActivity.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
 

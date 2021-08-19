@@ -1,7 +1,7 @@
 package com.orangeteam.Control_List.Servlets;
 
-import com.orangeteam.Control_List.dao.ActivityDAO;
 import com.orangeteam.Control_List.dao.ActivityDAOImpl;
+import com.orangeteam.Control_List.dao.UserDAOImpl;
 import com.orangeteam.Control_List.model.Activity;
 import com.orangeteam.Control_List.model.User;
 
@@ -11,15 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.OffsetDateTime;
 
-@WebServlet("/form")
-public class FormServlet extends HttpServlet {
+@WebServlet("/activity_form")
+public class ActivityFormServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
        try {
-           getServletContext().getRequestDispatcher("/form.jsp").forward(req, resp);
+           getServletContext().getRequestDispatcher("/activity_form.jsp").forward(req, resp);
        } catch (Exception e) {
            e.printStackTrace();
        }
@@ -32,19 +31,16 @@ public class FormServlet extends HttpServlet {
         //забираем введенные параметры
         try {
             int id = Integer.parseInt(req.getParameter("id"));
-            String name = req.getParameter("name");
-            String surname = req.getParameter("surname");
-//            OffsetDateTime start_time = req.getParameter("start_time");
-//            OffsetDateTime end_time = req.getParameter("end_time");
+            int time = Integer.parseInt(req.getParameter("time"));
             String description = req.getParameter("description");
-            User user = new User(id, name, surname);
-            Activity activity = new Activity(user, start_time, end_time, description);
+            User user = UserDAOImpl.getById(id);
+            Activity activity = new Activity(user, time, description);
             // передаем в метод, который заносит эти данные в БД и PDF
             ActivityDAOImpl.addByUser(user, activity);
 
-            resp.sendRedirect(req.getContentPath() + "/user_activity");
+            resp.sendRedirect(req.getContextPath() + "/user_activity");
         } catch (Exception e) {
-            getServletContext().getRequestDispatcher("/form.jsp");
+            getServletContext().getRequestDispatcher("/activity_form.jsp");
         }
     }
 }

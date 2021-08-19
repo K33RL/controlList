@@ -15,8 +15,8 @@ import java.util.List;
 public class UserActivitiesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        List<Activity> activityList = ActivityDAOImpl.getAll();
+//         Параметр
+        List<Activity> activityList = ActivityDAOImpl.getAllByUser();
         req.setAttribute(activityList);
 
         getServletContext().getRequestDispatcher("/user_activities.jsp").forward(req, resp);

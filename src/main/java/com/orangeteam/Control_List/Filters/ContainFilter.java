@@ -18,6 +18,7 @@ public class ContainFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain) throws IOException, ServletException {
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
+
         int time = Integer.parseInt(req.getParameter("time"));
         if (name.length() < 20 && surname.length() < 20 && time < 24) {
             filterChain.doFilter(req, resp);
