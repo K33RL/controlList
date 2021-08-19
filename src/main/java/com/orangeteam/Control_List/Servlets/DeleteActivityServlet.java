@@ -17,8 +17,7 @@ public class DeleteActivityServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(req.getParameter("id"));
-//            Добавить параметр
-            ActivityDAOImpl.remove();
+            ActivityDAOImpl.remove(id);
             resp.sendRedirect(req.getContextPath() + "/user_activity");
         } catch (Exception e) {
             getServletContext().getRequestDispatcher("/user_activity.jsp").forward(req, resp);

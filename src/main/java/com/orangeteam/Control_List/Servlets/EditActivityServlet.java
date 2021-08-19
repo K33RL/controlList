@@ -20,7 +20,7 @@ public class EditActivityServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(req.getParameter("id"));
-            Activity activity = ActivityDAOImpl.selectOne(id);
+            Activity activity = ActivityDAOImpl.getById(id);
 
             if (activity != null) {
                 req.setAttribute("activity", activity);
@@ -44,7 +44,7 @@ public class EditActivityServlet extends HttpServlet {
             User user = UserDAOImpl.getById(id);
             Activity activity = new Activity(user, time, description);
             // передаем в метод, который заносит эти данные в БД и PDF
-            ActivityDAOImpl.udate(user, activity);
+            ActivityDAOImpl.update(activity);
 
             resp.sendRedirect(req.getContextPath() + "/user_activity");
         } catch (Exception e) {

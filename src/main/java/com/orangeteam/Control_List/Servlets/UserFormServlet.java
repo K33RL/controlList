@@ -3,17 +3,16 @@ package com.orangeteam.Control_List.Servlets;
 import com.orangeteam.Control_List.dao.UserDAOImpl;
 import com.orangeteam.Control_List.model.User;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
 
 @WebServlet("/user_form")
 public class UserFormServlet extends HttpServlet {
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp){
 
         try {
             getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
@@ -24,7 +23,7 @@ public class UserFormServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp){
 
         //забираем введенные параметры
         try {

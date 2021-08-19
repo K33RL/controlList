@@ -17,8 +17,7 @@ public class DeleteUserServlet extends HttpServlet {
 
         try {
             int id = Integer.parseInt(req.getParameter("id"));
-//            Добавить параметр
-            UserDAOImpl.remove();
+            UserDAOImpl.remove(id);
             resp.sendRedirect(req.getContextPath() + "/users");
         } catch (Exception e) {
             getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);

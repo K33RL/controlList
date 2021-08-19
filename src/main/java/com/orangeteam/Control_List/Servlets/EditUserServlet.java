@@ -20,7 +20,7 @@ public class EditUserServlet extends HttpServlet {
 
         try {
             int user_id = Integer.parseInt(req.getParameter("id"));
-            User user = UserDAOImpl.selectOne(user_id);
+            User user = UserDAOImpl.getById(user_id);
             if (user != null) {
                 req.setAttribute("user", user);
                 getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
