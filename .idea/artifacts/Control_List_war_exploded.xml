@@ -13,6 +13,15 @@
         <element id="directory" name="classes">
           <element id="module-output" name="Control_List" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.projectlombok:lombok:1.18.20" />
+          <element id="library" level="project" name="Maven: org.jetbrains:annotations:22.0.0" />
+          <element id="library" level="project" name="Maven: org.glassfish.web:jakarta.servlet.jsp.jstl:1.2.6" />
+          <element id="library" level="project" name="Maven: jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:1.2.4" />
+          <element id="library" level="project" name="Maven: jakarta.servlet:jakarta.servlet-api:4.0.2" />
+          <element id="library" level="project" name="Maven: jakarta.el:jakarta.el-api:3.0.2" />
+          <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.2.23.jre7" />
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/Control_List-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
