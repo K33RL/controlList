@@ -30,10 +30,10 @@ public class EditUserServlet extends HttpServlet {
                 req.setAttribute("user", user);
                 getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
             } catch (Exception e) {
-                getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
 
@@ -53,10 +53,10 @@ public class EditUserServlet extends HttpServlet {
                 userDao.update(user);
                 resp.sendRedirect(req.getContextPath() + "/users");
             } catch (Exception e) {
-                getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
     }

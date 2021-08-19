@@ -32,17 +32,17 @@ public class EditActivityServlet extends HttpServlet {
                 req.setAttribute("activity", activity);
                 getServletContext().getRequestDispatcher("/activity_form.jsp").forward(req, resp);
             } catch (Exception e) {
-                getServletContext().getRequestDispatcher("/user_activity.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
 
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
         if (dbConn.isPresent()) {
@@ -59,10 +59,10 @@ public class EditActivityServlet extends HttpServlet {
 
                 resp.sendRedirect(req.getContextPath() + "/user_activity");
             } catch (Exception e) {
-                getServletContext().getRequestDispatcher("/activity_form.jsp");
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
     }

@@ -27,10 +27,10 @@ public class DeleteUserServlet extends HttpServlet {
                 userDao.remove(id);
                 resp.sendRedirect(req.getContextPath() + "/users");
             } catch (Exception e) {
-                getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
     }

@@ -38,10 +38,10 @@
     <div class="card">
         <div class="card-body">
             <c:if test="${user != null}">
-            <form action="update" method="post">
+            <form action="users" method="post">
                 </c:if>
                 <c:if test="${user == null}">
-                <form action="insert" method="post">
+                <form action="users" method="post">
                     </c:if>
 
                     <caption>
@@ -71,6 +71,7 @@
                                                          name="surname">
 
                     <button type="submit" class="btn btn-success">Save</button>
+                        </fieldset>
                 </form>
         </div>
     </div>

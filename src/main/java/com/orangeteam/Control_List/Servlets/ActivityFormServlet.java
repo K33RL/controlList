@@ -7,10 +7,12 @@ import com.orangeteam.Control_List.dao.UserDAOImpl;
 import com.orangeteam.Control_List.model.Activity;
 import com.orangeteam.Control_List.model.User;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public class ActivityFormServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp){
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
         if (dbConn.isPresent()) {
@@ -42,14 +44,13 @@ public class ActivityFormServlet extends HttpServlet {
                 String description = req.getParameter("description");
                 Optional<User> user = userDao.getById(id);
                 Activity activity = new Activity(user.get(), time, description);
-                // передаем в метод, который заносит эти данные в БД и PDF
                 activityDAO.addByUser(user.get(), activity);
 
                 resp.sendRedirect(req.getContextPath() + "/user_activity");
             } catch (Exception e) {
-                getServletContext().getRequestDispatcher("/activity_form.jsp");
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 }

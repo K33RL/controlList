@@ -30,7 +30,7 @@ public class UsersServlet extends HttpServlet {
             req.setAttribute("listUser", listUsers);
             getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
     }

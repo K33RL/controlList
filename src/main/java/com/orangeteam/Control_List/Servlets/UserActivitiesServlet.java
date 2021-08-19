@@ -34,7 +34,7 @@ public class UserActivitiesServlet extends HttpServlet {
 
             getServletContext().getRequestDispatcher("/user_activities.jsp").forward(req, resp);
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
     }

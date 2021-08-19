@@ -27,10 +27,10 @@ public class DeleteActivityServlet extends HttpServlet {
                 activityDAO.remove(id);
                 resp.sendRedirect(req.getContextPath() + "/user_activity");
             } catch (Exception e) {
-                getServletContext().getRequestDispatcher("/user_activity.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
-            // обработка отсутствия коннекта к бд, страничка какая то мб
+            getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
 
     }
