@@ -10,6 +10,7 @@ import com.orangeteam.Control_List.model.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Date;
 
 public class UserActivityReport implements PdfCreationSimpleInterface {
     private UserDAOImpl userDAO = new UserDAOImpl(DBUtils.connect().get());
@@ -24,8 +25,12 @@ public class UserActivityReport implements PdfCreationSimpleInterface {
         try {
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(pathToSave));
             document.open();
+            document.add(new Paragraph(new Date().toString()));
             for (User user :
                     userList) {
+                document.add(new Paragraph(" "));
+                document.add(new Paragraph(" "));
+                document.add(new Paragraph(" "));
                 document.add(new Paragraph(user.getName() + "" + user.getSurName()));
                 java.util.List<Activity> activityList = getUserActivity(user);
                 for (Activity activity :
@@ -45,11 +50,12 @@ public class UserActivityReport implements PdfCreationSimpleInterface {
 
     }
 
-    public java.util.List getUsers() {
+    private java.util.List getUsers() {
         return userDAO.getAll();
     }
 
-    public java.util.List getUserActivity(User user) {
+    private java.util.List getUserActivity(User user) {
         return activityDAO.getAllByUser(user);
     }
+
 }

@@ -1,3 +1,21 @@
 
-n
->src/main/java/com/orangeteam/Control_List/dao/ActivityDAO.java,c\9\c995dd9c7b56e97efc1ea4e23b2b2b9696b398c5
+]
+-.idea/artifacts/Control_List_war_exploded.xml,7\4\7440b5ef75fedc1fddfcc4a6757c7405168fafd3
+e
+5.idea/libraries/Maven__javax_javaee_web_api_8_0_1.xml,a\0\a02d7414eaece8ce6921e4f051cb1f70d8c887f8
+p
+@.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_0.xml,4\8\482fe248ab09a0c5ea5fe0919a983dada38954e7
+k
+;.idea/libraries/Maven__org_jetbrains_annotations_22_0_0.xml,5\3\530b04282ae2201487772927ec2a69801270dc7c
+t
+D.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_7_1.xml,7\d\7d8e996169f5296e0014a57f01ca058553f7beaf
+w
+G.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_7_1.xml,f\2\f2275ff6894eafd93d706d1c9ea4fb9b13b770dd
+z
+J.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_7_1.xml,1\0\10d3876d5da449ca594a3f2d1856fa309db14ea5
+y
+I.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_7_1.xml,2\5\25295b3a5937eb792de4e03f527cea03dc9426f2
+j
+:.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml,8\5\858474d8d215ec25f84b3be6f80418553ae8d1df
+k
+;.idea/libraries/Maven__org_projectlombok_lombok_1_18_20.xml,5\6\5617b3e4ba560d46bf8994bb751091b1068190f2
