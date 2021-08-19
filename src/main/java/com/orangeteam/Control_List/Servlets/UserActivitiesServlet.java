@@ -30,7 +30,7 @@ public class UserActivitiesServlet extends HttpServlet {
             int id = Integer.parseInt(req.getParameter("id"));
             Optional<User> user = userDao.getById(id);
             List<Activity> activityList = activityDAO.getAllByUser(user.get());
-            req.setAttribute(activityList);
+            req.setAttribute("activityList", activityList);
 
             getServletContext().getRequestDispatcher("/user_activities.jsp").forward(req, resp);
         } else {
