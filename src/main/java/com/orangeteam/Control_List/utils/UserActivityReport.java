@@ -1,6 +1,9 @@
 package com.orangeteam.Control_List.utils;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.CMYKColor;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.orangeteam.Control_List.dao.ActivityDAOImpl;
 import com.orangeteam.Control_List.dao.UserDAOImpl;
@@ -10,6 +13,8 @@ import com.orangeteam.Control_List.model.User;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Date;
 
 public class UserActivityReport implements PdfCreationSimpleInterface {
@@ -19,35 +24,55 @@ public class UserActivityReport implements PdfCreationSimpleInterface {
 
     @Override
     public void createPdf(String pathToSave) {
-        Document document = new Document();
+
         List actListText = new List();
         java.util.List<User> userList = getUsers();
+        PdfWriter writer;
         try {
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(pathToSave));
+            Document document = new Document(PageSize.A4);
+            Font fontTitle = FontFactory.getFont(FontFactory.COURIER, 24, Font.BOLD, new CMYKColor(255, 255, 255, 2));
+            Font fontUser = FontFactory.getFont(FontFactory.COURIER, 18, Font.BOLD, new CMYKColor(255, 255, 255, 2));
+            Font fontActivity = FontFactory.getFont(FontFactory.COURIER, 16, Font.BOLD, new CMYKColor(255, 255, 255, 2));
+            writer = PdfWriter.getInstance(document, new FileOutputStream("OUTPUT FILE NAME HERE"));
             document.open();
-            document.add(new Paragraph(new Date().toString()));
+            PdfContentByte canvas = writer.getDirectContentUnder();
+            Image image = Image.getInstance("IMG SOURCE HERE");
+            image.scaleAbsolute(PageSize.A4);
+            image.setAbsolutePosition(0, 0);
+            canvas.saveState();
+            PdfGState state = new PdfGState();
+            state.setFillOpacity(0.6f);
+            canvas.setGState(state);
+            canvas.addImage(image);
+            canvas.restoreState();
+            Paragraph paragraph = new Paragraph("Orange Team Report", fontTitle);
+            paragraph.setIndentationLeft(150);
+            document.add(paragraph);
+            document.add(new Paragraph(new Date().toString(), fontActivity));
             for (User user :
                     userList) {
                 document.add(new Paragraph(" "));
                 document.add(new Paragraph(" "));
                 document.add(new Paragraph(" "));
-                document.add(new Paragraph(user.getName() + "" + user.getSurName()));
+                document.add(new Paragraph(user.getName() + "" + user.getSurName(), fontUser));
                 java.util.List<Activity> activityList = getUserActivity(user);
                 for (Activity activity :
                         activityList) {
-                    actListText.add(new ListItem(activity.getDurationMin() + " : " + activity.getDescription()));
+                    actListText.add(new ListItem(activity.getDurationMin() + " : " + activity.getDescription(), fontActivity));
                     document.add(actListText);
                 }
             }
-            pdfWriter.close();
+            writer.close();
+            document.close();
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } finally {
-            document.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     private java.util.List getUsers() {
