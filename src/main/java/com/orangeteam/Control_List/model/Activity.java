@@ -17,7 +17,8 @@ public class Activity implements Serializable {
     private User user;
 
     @Getter @Setter
-    private int durationMin;
+    @NonNull
+    private Integer durationMin;
 
     @Getter @Setter
     @NonNull
