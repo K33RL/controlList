@@ -1,12 +1,12 @@
 package com.orangeteam.Control_List.dao;
 
 import com.orangeteam.Control_List.exception.EmptyIdException;
+import com.orangeteam.Control_List.exception.UserUniqueViolationException;
 import com.orangeteam.Control_List.model.Activity;
 import com.orangeteam.Control_List.model.User;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -73,7 +73,7 @@ public class ActivityDAOImpl implements ActivityDAO {
         final String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?;";
         Activity activity = null;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setLong(1, activityId);
+            statement.setInt(1, activityId);
 
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -92,25 +92,22 @@ public class ActivityDAOImpl implements ActivityDAO {
 
     @Override
     public Optional<Activity> addByUser(@NotNull User user, @NotNull Activity activity) throws EmptyIdException {
-        final String query = "INSERT INTO " + TABLE_NAME + "(user_id, start_time, end_time, description) VALUES (?, ?, ?, ?);";
+        final String query = "INSERT INTO " + TABLE_NAME + "(user_id, duration_min, description) VALUES (?, ?, ?);";
         Activity addedActivity = null;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
             if (user.getId() == 0) {
                 throw new EmptyIdException();
             }
             statement.setLong(1, user.getId());
-            statement.setObject(2, activity.getStartTime());
-            statement.setObject(3, activity.getEndTime());
-            statement.setString(4, activity.getDescription());
+            statement.setObject(2, activity.getDurationMin());
+            statement.setString(3, activity.getDescription());
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted == 1) {
                 ResultSet idsRs = statement.getGeneratedKeys();
                 if (idsRs.next()) {
-                    long insertedId = idsRs.getLong(1);
-                    addedActivity = new Activity(insertedId, user,
-                            activity.getStartTime(), activity.getEndTime(),
-                            activity.getDescription());
+                    int insertedId = idsRs.getInt(1);
+                    addedActivity = new Activity(insertedId, user, activity.getDurationMin(), activity.getDescription());
                 }
             }
         } catch (SQLException e) {
@@ -121,14 +118,11 @@ public class ActivityDAOImpl implements ActivityDAO {
     }
 
     @Override
-    public int removeAllByUser(@NotNull User user) throws EmptyIdException {
+    public int removeAllByUserId(int userId) {
         final String query = "DELETE FROM " + TABLE_NAME + " WHERE user_id = ?;";
         int deletedRowsCount = 0;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            if (user.getId() == 0) {
-                throw new EmptyIdException();
-            }
-            statement.setLong(1, user.getId());
+            statement.setInt(1, userId);
 
             deletedRowsCount = statement.executeUpdate();
         } catch (SQLException e) {
@@ -138,14 +132,31 @@ public class ActivityDAOImpl implements ActivityDAO {
     }
 
     @Override
-    public int remove(@NotNull Activity activity) throws EmptyIdException {
-        final String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
-        int deletedRowsCount = 0;
+    public int update(Activity activity) throws EmptyIdException {
+        final String query = "UPDATE " + TABLE_NAME + " SET user_id = ? , duration_min = ?, description = ? WHERE id = ?;";
+        int updatedRowsCount = 0;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setInt(1, activity.getUser().getId());
+            statement.setInt(2, activity.getDurationMin());
+            statement.setString(3, activity.getDescription());
             if (activity.getId() == 0) {
                 throw new EmptyIdException();
             }
-            statement.setLong(1, activity.getId());
+            statement.setInt(4, activity.getId());
+
+            updatedRowsCount = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updatedRowsCount;
+    }
+
+    @Override
+    public int remove(int activityId) {
+        final String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
+        int deletedRowsCount = 0;
+        try (PreparedStatement statement = this.connection.prepareStatement(query)) {
+            statement.setInt(1, activityId);
 
             deletedRowsCount = statement.executeUpdate();
         } catch (SQLException e) {
@@ -159,10 +170,9 @@ public class ActivityDAOImpl implements ActivityDAO {
     ================================ */
 
     private static Activity makeQueriedActivity(@NotNull ResultSet rs) throws SQLException {
-        long activityId = rs.getLong("id");
-        OffsetDateTime startTime = rs.getObject("start_time", OffsetDateTime.class);
-        OffsetDateTime endTime = rs.getObject("end_time", OffsetDateTime.class);
+        int activityId = rs.getInt("id");
+        int activityDuration = rs.getInt("duration_min");
         String description = rs.getString("description");
-        return new Activity(activityId, new User(), startTime, endTime, description);
+        return new Activity(activityId, new User(), activityDuration, description);
     }
 }

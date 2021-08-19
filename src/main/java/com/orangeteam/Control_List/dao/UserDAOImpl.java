@@ -74,7 +74,7 @@ public class UserDAOImpl implements UserDAO {
             if (rowsInserted == 1) {
                 ResultSet idsRs = statement.getGeneratedKeys();
                 if (idsRs.next()) {
-                    long insertedId = idsRs.getLong(1);
+                    int insertedId = idsRs.getInt(1);
                     addedUser = new User(insertedId, user.getName(), user.getSurName());
                 }
             }
@@ -110,14 +110,11 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int remove(@NotNull User user) throws EmptyIdException {
+    public int remove(int userId) throws EmptyIdException {
         final String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
         int deletedRowsCount = 0;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            if (user.getId() == 0) {
-                throw new EmptyIdException();
-            }
-            statement.setLong(1, user.getId());
+            statement.setLong(1, userId);
 
             deletedRowsCount = statement.executeUpdate();
         } catch (SQLException e) {
@@ -131,7 +128,7 @@ public class UserDAOImpl implements UserDAO {
     ================================ */
 
     private static User makeQueriedUser(@NotNull ResultSet rs) throws SQLException {
-        long userId = rs.getLong("id");
+        int userId = rs.getInt("id");
         String userName = rs.getString("name");
         String userSurname = rs.getString("surname");
         return new User(userId, userName, userSurname);

@@ -12,5 +12,5 @@ public interface UserDAO {
     Optional<User> getById(int userId);
     Optional<User> add(User user) throws UserUniqueViolationException;
     int update(User user) throws EmptyIdException, UserUniqueViolationException;
-    int remove(User user) throws EmptyIdException;
+    int remove(int userId);
 }

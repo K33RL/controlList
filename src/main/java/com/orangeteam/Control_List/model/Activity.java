@@ -3,7 +3,6 @@ package com.orangeteam.Control_List.model;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
 
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -11,19 +10,14 @@ import java.time.OffsetDateTime;
 public class Activity implements Serializable {
     @Getter
     @Setter
-    private long id;
+    private int id;
 
     @Getter @Setter
     @NonNull
     private User user;
 
     @Getter @Setter
-    @NonNull
-    private OffsetDateTime startTime;
-
-    @Getter @Setter
-    @NonNull
-    private OffsetDateTime endTime;
+    private int durationMin;
 
     @Getter @Setter
     @NonNull

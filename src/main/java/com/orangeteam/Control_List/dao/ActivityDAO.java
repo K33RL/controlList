@@ -9,9 +9,10 @@ import java.util.Optional;
 
 public interface ActivityDAO {
     List<Activity> getAll();
-    List<Activity> getAllByUser(User user) throws EmptyIdException;
+    List<Activity> getAllByUser(User user);
     Optional<Activity> getById(int activityId);
     Optional<Activity> addByUser(User user, Activity activity) throws EmptyIdException;
-    int removeAllByUser(User user) throws EmptyIdException;
-    int remove(Activity activity) throws EmptyIdException;
+    int removeAllByUserId(int userId);
+    int update(Activity activity) throws EmptyIdException;
+    int remove(int activityId);
 }

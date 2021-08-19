@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     @Getter
     @Setter
-    private long id;
+    private int id;
 
     @Getter @Setter
     @NonNull
