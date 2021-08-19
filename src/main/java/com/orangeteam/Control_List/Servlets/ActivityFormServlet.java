@@ -53,4 +53,5 @@ public class ActivityFormServlet extends HttpServlet {
         } else {
             getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
+    }
 }
