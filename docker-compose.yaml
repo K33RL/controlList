@@ -1,0 +1,21 @@
+services:
+  tomcat:
+    build: .
+    container_name: tomcat-container
+    ports:
+      - 8888:8080
+    restart: on-failure
+    depends_on:
+      - database
+
+  database:
+    build: ./db
+    container_name: postgresql-container
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql
+    restart: always
+
+volumes:
+  pg_data:

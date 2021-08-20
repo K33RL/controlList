@@ -8,10 +8,10 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class DBUtils {
-    private final static String POSTGRES_USER = "controlList";
+    private final static String POSTGRES_USER = "andersen";
     private final static String POSTGRES_PASSWORD = "pass123";
 
-    private static final String DB_URL = "jdbc:postgresql://127.0.0.1:5432/controlList";
+    private static final String DB_URL = "jdbc:postgresql://database:5432/controlList";
 
     public static Optional<Connection> connect() {
         Optional<Connection> optionalConnection = Optional.empty();
