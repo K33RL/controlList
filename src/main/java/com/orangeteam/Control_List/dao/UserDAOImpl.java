@@ -68,14 +68,14 @@ public class UserDAOImpl implements UserDAO {
         try (PreparedStatement statement = this.connection.prepareStatement(query,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
             statement.setString(1, user.getName());
-            statement.setString(2, user.getSurName());
+            statement.setString(2, user.getSurname());
 
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted == 1) {
                 ResultSet idsRs = statement.getGeneratedKeys();
                 if (idsRs.next()) {
                     int insertedId = idsRs.getInt(1);
-                    addedUser = new User(insertedId, user.getName(), user.getSurName());
+                    addedUser = new User(insertedId, user.getName(), user.getSurname());
                 }
             }
         } catch (SQLException e) {
@@ -93,7 +93,7 @@ public class UserDAOImpl implements UserDAO {
         int updatedRowsCount = 0;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
             statement.setString(1, user.getName());
-            statement.setString(2, user.getSurName());
+            statement.setString(2, user.getSurname());
             if (user.getId() == 0) {
                 throw new EmptyIdException();
             }
