@@ -11,29 +11,30 @@ import com.orangeteam.Control_List.db.DBUtils;
 import com.orangeteam.Control_List.model.Activity;
 import com.orangeteam.Control_List.model.User;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.util.Date;
 
-public class UserActivityReport implements PdfCreationSimpleInterface {
+public class UserActivityReport  {
     private UserDAOImpl userDAO = new UserDAOImpl(DBUtils.connect().get());
     private ActivityDAOImpl activityDAO = new ActivityDAOImpl(DBUtils.connect().get());
 
 
-    @Override
-    public void createPdf(String pathToSave) {
+
+    public byte[] createPdf() throws IOException {
 
         List actListText = new List();
         java.util.List<User> userList = getUsers();
         PdfWriter writer;
+        ByteArrayOutputStream outputStream = null;
+        byte[] pdfArray;
         try {
             Document document = new Document(PageSize.A4);
             Font fontTitle = FontFactory.getFont(FontFactory.COURIER, 24, Font.BOLD, new CMYKColor(255, 255, 255, 2));
             Font fontUser = FontFactory.getFont(FontFactory.COURIER, 18, Font.BOLD, new CMYKColor(255, 255, 255, 2));
             Font fontActivity = FontFactory.getFont(FontFactory.COURIER, 16, Font.BOLD, new CMYKColor(255, 255, 255, 2));
-            writer = PdfWriter.getInstance(document, new FileOutputStream("OUTPUT FILE NAME HERE"));
+            outputStream = new ByteArrayOutputStream();
+            writer = PdfWriter.getInstance(document, outputStream);
             document.open();
             PdfContentByte canvas = writer.getDirectContentUnder();
             Image image = Image.getInstance("IMG SOURCE HERE");
@@ -63,7 +64,6 @@ public class UserActivityReport implements PdfCreationSimpleInterface {
                 }
             }
             writer.close();
-            document.close();
         } catch (DocumentException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -73,6 +73,9 @@ public class UserActivityReport implements PdfCreationSimpleInterface {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        pdfArray = outputStream.toByteArray();
+        outputStream.close();
+        return pdfArray;
     }
 
     private java.util.List getUsers() {
