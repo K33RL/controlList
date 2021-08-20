@@ -18,5 +18,5 @@ public class User implements Serializable {
 
     @Getter @Setter
     @NonNull
-    private String surName;
+    private String surname;
 }
