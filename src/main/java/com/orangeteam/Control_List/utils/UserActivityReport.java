@@ -21,20 +21,17 @@ public class UserActivityReport  {
 
 
 
-    public byte[] createPdf() throws IOException {
+    public void createPdf() throws IOException {
 
         List actListText = new List();
         java.util.List<User> userList = getUsers();
         PdfWriter writer;
-        ByteArrayOutputStream outputStream = null;
-        byte[] pdfArray;
         try {
             Document document = new Document(PageSize.A4);
             Font fontTitle = FontFactory.getFont(FontFactory.COURIER, 24, Font.BOLD, new CMYKColor(255, 255, 255, 2));
             Font fontUser = FontFactory.getFont(FontFactory.COURIER, 18, Font.BOLD, new CMYKColor(255, 255, 255, 2));
             Font fontActivity = FontFactory.getFont(FontFactory.COURIER, 16, Font.BOLD, new CMYKColor(255, 255, 255, 2));
-            outputStream = new ByteArrayOutputStream();
-            writer = PdfWriter.getInstance(document, outputStream);
+            writer = PdfWriter.getInstance(document, new FileOutputStream(""));
             document.open();
             PdfContentByte canvas = writer.getDirectContentUnder();
             Image image = Image.getInstance("IMG SOURCE HERE");
@@ -63,6 +60,7 @@ public class UserActivityReport  {
                     document.add(actListText);
                 }
             }
+            document.close();
             writer.close();
         } catch (DocumentException e) {
             e.printStackTrace();
@@ -73,9 +71,6 @@ public class UserActivityReport  {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        pdfArray = outputStream.toByteArray();
-        outputStream.close();
-        return pdfArray;
     }
 
     private java.util.List getUsers() {
