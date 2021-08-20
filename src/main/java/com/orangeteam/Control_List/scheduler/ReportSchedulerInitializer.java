@@ -1,11 +1,14 @@
 package com.orangeteam.Control_List.scheduler;
 
 import com.orangeteam.Control_List.utils.MailSender;
+import com.orangeteam.Control_List.utils.UserActivityReport;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -30,7 +33,7 @@ public class ReportSchedulerInitializer implements ServletContextListener {
     // Delay for first execution in seconds
     private long getInitialDelay() {
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Moscow"));
-        ZonedDateTime period = now.withHour(15).withMinute(19).withSecond(0);
+        ZonedDateTime period = now.withHour(17).withMinute(42).withSecond(0);
         if(now.compareTo(period) > 0)
             period = period.plusDays(1);
         Duration duration = Duration.between(now, period);
@@ -53,7 +56,13 @@ public class ReportSchedulerInitializer implements ServletContextListener {
 
     @Override
     public void run() {
-//        new MailSender("lykinevgen@gmail.com", "tvgqlwdkvmhjpvvx").sendMailWithAttachment("Testing mail sender", new Date().toString(), "lykinevgen@gmail.com", );
+        try {
+            new UserActivityReport().createPdf();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File pdfReport = new File("OrangeTeamReport.pdf");
+        new MailSender("lykinevgen@gmail.com", "tvgqlwdkvmhjpvvx").sendMailWithAttachment("Testing mail sender", new Date().toString(), "lykinevgen@gmail.com", pdfReport);
     }
 
 }

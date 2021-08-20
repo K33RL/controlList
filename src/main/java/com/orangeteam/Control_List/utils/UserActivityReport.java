@@ -31,17 +31,17 @@ public class UserActivityReport  {
             Font fontTitle = FontFactory.getFont(FontFactory.COURIER, 24, Font.BOLD, new CMYKColor(255, 255, 255, 2));
             Font fontUser = FontFactory.getFont(FontFactory.COURIER, 18, Font.BOLD, new CMYKColor(255, 255, 255, 2));
             Font fontActivity = FontFactory.getFont(FontFactory.COURIER, 16, Font.BOLD, new CMYKColor(255, 255, 255, 2));
-            writer = PdfWriter.getInstance(document, new FileOutputStream(""));
+            writer = PdfWriter.getInstance(document, new FileOutputStream("OrangeTeamReport.pdf"));
             document.open();
             PdfContentByte canvas = writer.getDirectContentUnder();
-            Image image = Image.getInstance("IMG SOURCE HERE");
+            /*Image image = Image.getInstance("src/main/resources/iTextImg/bg.jpg");
             image.scaleAbsolute(PageSize.A4);
-            image.setAbsolutePosition(0, 0);
+            image.setAbsolutePosition(0, 0);*/
             canvas.saveState();
             PdfGState state = new PdfGState();
             state.setFillOpacity(0.6f);
             canvas.setGState(state);
-            canvas.addImage(image);
+            //canvas.addImage(image);
             canvas.restoreState();
             Paragraph paragraph = new Paragraph("Orange Team Report", fontTitle);
             paragraph.setIndentationLeft(150);
@@ -52,7 +52,7 @@ public class UserActivityReport  {
                 document.add(new Paragraph(" "));
                 document.add(new Paragraph(" "));
                 document.add(new Paragraph(" "));
-                document.add(new Paragraph(user.getName() + "" + user.getSurName(), fontUser));
+                document.add(new Paragraph(user.getName() + "" + user.getSurname(), fontUser));
                 java.util.List<Activity> activityList = getUserActivity(user);
                 for (Activity activity :
                         activityList) {
@@ -66,8 +66,8 @@ public class UserActivityReport  {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        /*} catch (MalformedURLException e) {
+            e.printStackTrace();*/
         } catch (IOException e) {
             e.printStackTrace();
         }
