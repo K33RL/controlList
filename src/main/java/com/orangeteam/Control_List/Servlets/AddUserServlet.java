@@ -39,8 +39,9 @@ public class AddUserServlet extends HttpServlet {
                 String surname = req.getParameter("surname");
                 userDao.add(new User(name, surname));
 
-                resp.sendRedirect("/users.jsp");
+                getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);
             } catch (Exception e) {
+                e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {

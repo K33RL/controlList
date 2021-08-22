@@ -57,9 +57,18 @@
                     <td><c:out value="${user.id}"/></td>
                     <td><c:out value="${user.name}"/></td>
                     <td><c:out value="${user.surname}"/></td>
-                    <td><a href="activities?id=<c:out value='${user.id}'/>>">activity</a></td>
-                    <td><a href="edit?id=<c:out value='${user.id}' />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <a href="deleteUser?id=<c:out value='${user.id}' />">Delete</a></td>
+                    <td><a href="activities?id=<c:out value="${user.id}"/>">activity</a></td>
+                    <td>
+                        <form method="get" action='<c:url value="/edit" />' style="display:inline;">
+                            <input type="hidden" name="id" value="${user.id}">
+                            <input type="submit" value="Edit">
+                        </form>
+<%--                        <a href="edit?id=<c:out value="${user.id}"/>">Edit</a>--%>
+                        <form method="post" action='<c:url value="/deleteUser" />' style="display:inline;">
+                            <input type="hidden" name="id" value="${user.id}">
+                            <input type="submit" value="Delete">
+                        </form>
+<%--                        <a href="deleteUser?id=<c:out value="${user.id}"/>">Delete</a></td>--%>
                 </tr>
             </c:forEach>
 

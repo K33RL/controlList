@@ -30,6 +30,7 @@ public class EditUserServlet extends HttpServlet {
                 req.setAttribute("user", user);
                 getServletContext().getRequestDispatcher(req.getContextPath() + "/edit.jsp").forward(req, resp);
             } catch (Exception e) {
+                e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
@@ -53,6 +54,7 @@ public class EditUserServlet extends HttpServlet {
                 userDao.update(user);
                 resp.sendRedirect("/users.jsp");
             } catch (Exception e) {
+                e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {

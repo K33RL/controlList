@@ -1,7 +1,6 @@
 package com.orangeteam.Control_List.dao;
 
 import com.orangeteam.Control_List.exception.EmptyIdException;
-import com.orangeteam.Control_List.exception.UserUniqueViolationException;
 import com.orangeteam.Control_List.model.Activity;
 import com.orangeteam.Control_List.model.User;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ActivityDAOImpl implements ActivityDAO {
-    private static final String TABLE_NAME = "activity";
+    private static final String TABLE_NAME = "activities";
 
     private Connection connection;
 
@@ -55,7 +54,7 @@ public class ActivityDAOImpl implements ActivityDAO {
             }
             statement.setLong(1, user.getId());
 
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Activity nextActivity = makeQueriedActivity(rs);
                 nextActivity.setUser(user);

@@ -32,6 +32,7 @@ public class EditActivityServlet extends HttpServlet {
                 req.setAttribute("activity", activity);
                 getServletContext().getRequestDispatcher(req.getContextPath() + "/change.jsp").forward(req, resp);
             } catch (Exception e) {
+                e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
@@ -58,6 +59,7 @@ public class EditActivityServlet extends HttpServlet {
 
                 resp.sendRedirect(req.getContextPath() + "/activities");
             } catch (Exception e) {
+                e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {

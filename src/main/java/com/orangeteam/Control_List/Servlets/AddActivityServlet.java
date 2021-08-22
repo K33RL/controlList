@@ -21,7 +21,7 @@ import static com.orangeteam.Control_List.db.DatabaseContextListener.DB_ATTRIBUT
 @WebServlet("/create")
 public class AddActivityServlet extends HttpServlet {
 
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
         if (dbConn.isPresent()) {
@@ -34,6 +34,7 @@ public class AddActivityServlet extends HttpServlet {
                 getServletContext().getRequestDispatcher(req.getContextPath() + "/create.jsp").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
+                getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         }
     }
@@ -54,6 +55,7 @@ public class AddActivityServlet extends HttpServlet {
 
                 resp.sendRedirect(req.getContextPath() + "/activities");
             } catch (Exception e) {
+                e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
         } else {
