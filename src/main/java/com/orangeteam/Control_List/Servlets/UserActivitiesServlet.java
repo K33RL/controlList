@@ -18,7 +18,7 @@ import java.util.Optional;
 
 import static com.orangeteam.Control_List.db.DatabaseContextListener.DB_ATTRIBUTE;
 
-@WebServlet("/user_activities")
+@WebServlet("/activities")
 public class UserActivitiesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +32,7 @@ public class UserActivitiesServlet extends HttpServlet {
             List<Activity> activityList = activityDAO.getAllByUser(user.get());
             req.setAttribute("activityList", activityList);
 
-            getServletContext().getRequestDispatcher("/user_activities.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher(req.getContextPath() + "/activities").forward(req, resp);
         } else {
             getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }

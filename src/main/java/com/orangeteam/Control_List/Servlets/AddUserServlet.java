@@ -16,13 +16,13 @@ import java.util.Optional;
 import static com.orangeteam.Control_List.db.DatabaseContextListener.DB_ATTRIBUTE;
 
 
-@WebServlet("/user_form")
-public class UserFormServlet extends HttpServlet {
+@WebServlet("/add")
+public class AddUserServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
-            getServletContext().getRequestDispatcher("/user_form.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher(req.getContextPath() + "/add.jsp").forward(req, resp);
         } catch (Exception e) {
             getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
         }
@@ -39,7 +39,7 @@ public class UserFormServlet extends HttpServlet {
                 String surname = req.getParameter("surname");
                 userDao.add(new User(name, surname));
 
-                resp.sendRedirect(req.getContextPath() + "/users");
+                resp.sendRedirect("/users.jsp");
             } catch (Exception e) {
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }

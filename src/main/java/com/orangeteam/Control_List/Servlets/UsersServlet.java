@@ -21,7 +21,6 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
         Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
         if (dbConn.isPresent()) {
             UserDAO userDao = new UserDAOImpl(dbConn.get());

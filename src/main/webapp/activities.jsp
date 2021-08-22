@@ -35,7 +35,7 @@
         <hr>
         <div class="container text-left">
 
-            <a href="<%=request.getContextPath()%>/activity_form" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/create" class="btn btn-success">Add
                 New UserActivity</a>
         </div>
         <br>
@@ -51,16 +51,15 @@
             </thead>
             <tbody>
 
-            <c:forEach var="userActivity" items="${activityList}">
+            <c:forEach var="userActivity" items="${requestScope.activityList}">
 
                 <tr>
                     <td><c:out value="${userActivity.id}"/></td>
                     <td><c:out value="${userActivity.user_id}"/></td>
                     <td><c:out value="${userActivity.time}"/></td>
                     <td><c:out value="${userActivity.activities}"/></td>
-                    <td><a href="editActivity?id=<c:out value='${userActivity.id}' />">Edit</a>
-                        &nbsp;&nbsp;&nbsp;&nbsp; <a
-                                href="deleteActivity?id=<c:out value='${userActivity.id}' />">Delete</a></td>
+                    <td><a href="change?id=<c:out value='${userActivity.id}' />">Edit</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp; <a href="deleteActivity?id=<c:out value='${userActivity.id}' />">Delete</a></td>
                 </tr>
             </c:forEach>
 

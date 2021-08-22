@@ -18,17 +18,24 @@ import java.util.Optional;
 
 import static com.orangeteam.Control_List.db.DatabaseContextListener.DB_ATTRIBUTE;
 
-@WebServlet("/activity_form")
-public class ActivityFormServlet extends HttpServlet {
+@WebServlet("/create")
+public class AddActivityServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
 
-       try {
-           getServletContext().getRequestDispatcher("/activity_form.jsp").forward(req, resp);
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-
+        Optional<Connection> dbConn = (Optional<Connection>) req.getServletContext().getAttribute(DB_ATTRIBUTE);
+        if (dbConn.isPresent()) {
+            UserDAO userDao = new UserDAOImpl(dbConn.get());
+            try {
+                int user_id = Integer.parseInt(req.getParameter("id"));
+                Optional<User> user = userDao.getById(user_id);
+                req.setAttribute("user", user);
+                req.setAttribute("id", user_id);
+                getServletContext().getRequestDispatcher(req.getContextPath() + "/create.jsp").forward(req, resp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -39,14 +46,13 @@ public class ActivityFormServlet extends HttpServlet {
             UserDAO userDao = new UserDAOImpl(dbConn.get());
             ActivityDAO activityDAO = new ActivityDAOImpl(dbConn.get());
             try {
-                int id = Integer.parseInt(req.getParameter("id"));
                 int time = Integer.parseInt(req.getParameter("time"));
                 String description = req.getParameter("description");
-                Optional<User> user = userDao.getById(id);
+                Optional<User> user = (Optional<User>) req.getAttribute("user");
                 Activity activity = new Activity(user.get(), time, description);
                 activityDAO.addByUser(user.get(), activity);
 
-                resp.sendRedirect(req.getContextPath() + "/user_activity");
+                resp.sendRedirect(req.getContextPath() + "/activities");
             } catch (Exception e) {
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }

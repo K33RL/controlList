@@ -18,7 +18,7 @@ import java.util.Optional;
 
 import static com.orangeteam.Control_List.db.DatabaseContextListener.DB_ATTRIBUTE;
 
-@WebServlet("/editActivity")
+@WebServlet("/change")
 public class EditActivityServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -30,7 +30,7 @@ public class EditActivityServlet extends HttpServlet {
                 int id = Integer.parseInt(req.getParameter("id"));
                 Optional<Activity> activity = activityDAO.getById(id);
                 req.setAttribute("activity", activity);
-                getServletContext().getRequestDispatcher("/activity_form.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher(req.getContextPath() + "/change.jsp").forward(req, resp);
             } catch (Exception e) {
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
@@ -54,10 +54,9 @@ public class EditActivityServlet extends HttpServlet {
                 String description = req.getParameter("description");
                 Optional<User> user = userDao.getById(id);
                 Activity activity = new Activity(user.get(), time, description);
-                // передаем в метод, который заносит эти данные в БД и PDF
                 activityDAO.update(activity);
 
-                resp.sendRedirect(req.getContextPath() + "/user_activity");
+                resp.sendRedirect(req.getContextPath() + "/activities");
             } catch (Exception e) {
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
             }
