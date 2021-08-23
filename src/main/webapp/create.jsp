@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.Optional" %>
+<%@ page import="com.orangeteam.Control_List.model.User" %><%--
   Created by IntelliJ IDEA.
   User: kpere
   Date: 18.08.2021
@@ -42,7 +43,7 @@
                     <input type="hidden" name="id" value=${requestScope.user.get().id}/>
 
                     <fieldset class="form-group">
-                        <label>Time <input type="time" class="form-control" name="time"
+                        <label>Activity duration (in minutes)<input type="number" class="form-control" name="time"
                                            required="required" value=${requestScope.activity.get().durationMin}></label>
                     </fieldset>
                     <fieldset class="form-group">

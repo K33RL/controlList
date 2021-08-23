@@ -31,7 +31,7 @@ public class AddActivityServlet extends HttpServlet {
                 Optional<User> user = userDao.getById(user_id);
                 req.setAttribute("user", user);
                 req.setAttribute("id", user_id);
-                getServletContext().getRequestDispatcher(req.getContextPath() + "/create").forward(req, resp);
+                getServletContext().getRequestDispatcher(req.getContextPath() + "/create.jsp").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
@@ -49,11 +49,11 @@ public class AddActivityServlet extends HttpServlet {
             try {
                 int time = Integer.parseInt(req.getParameter("time"));
                 String description = req.getParameter("description");
-                Optional<User> user = (Optional<User>) req.getAttribute("user");
+                int id = Integer.parseInt(req.getParameter("id"));
+                Optional<User> user = userDao.getById(id);
                 Activity activity = new Activity(user.get(), time, description);
                 activityDAO.addByUser(user.get(), activity);
-
-                resp.sendRedirect(req.getContextPath() + "/activities");
+                resp.sendRedirect(req.getContextPath() + "/activities?id=" + id);
             } catch (Exception e) {
                 e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);

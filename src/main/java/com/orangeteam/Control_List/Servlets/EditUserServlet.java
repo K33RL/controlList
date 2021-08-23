@@ -28,7 +28,7 @@ public class EditUserServlet extends HttpServlet {
                 int user_id = Integer.parseInt(req.getParameter("id"));
                 Optional<User> user = userDao.getById(user_id);
                 req.setAttribute("user", user);
-                getServletContext().getRequestDispatcher(req.getContextPath() + "/edit").forward(req, resp);
+                getServletContext().getRequestDispatcher(req.getContextPath() + "/edit.jsp").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);

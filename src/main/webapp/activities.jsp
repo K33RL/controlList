@@ -35,7 +35,7 @@
         <hr>
         <div class="container text-left">
 
-            <a href="<%=request.getContextPath()%>/create" class="btn btn-success">Add
+            <a href="<%=request.getContextPath()%>/create?id=${requestScope.user.get().id}" class="btn btn-success">Add
                 New UserActivity</a>
         </div>
         <br>

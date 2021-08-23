@@ -31,8 +31,9 @@ public class UserActivitiesServlet extends HttpServlet {
             Optional<User> user = userDao.getById(id);
             List<Activity> activityList = activityDAO.getAllByUser(user.get());
             req.setAttribute("activityList", activityList);
+            req.setAttribute("user", user);
 
-            getServletContext().getRequestDispatcher(req.getContextPath() + "/activities").forward(req, resp);
+            getServletContext().getRequestDispatcher(req.getContextPath() + "/activities.jsp").forward(req, resp);
         } else {
             getServletContext().getRequestDispatcher("/error.jsp").forward(req, resp);
         }
