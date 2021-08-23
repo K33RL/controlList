@@ -55,9 +55,9 @@
 
                 <tr>
                     <td><c:out value="${userActivity.id}"/></td>
-                    <td><c:out value="${userActivity.user_id}"/></td>
-                    <td><c:out value="${userActivity.time}"/></td>
-                    <td><c:out value="${userActivity.activities}"/></td>
+                    <td><c:out value="${userActivity.user.id}"/></td>
+                    <td><c:out value="${userActivity.durationMin}"/></td>
+                    <td><c:out value="${userActivity.description}"/></td>
                     <td><a href="change?id=<c:out value='${userActivity.id}' />">Edit</a>
                         &nbsp;&nbsp;&nbsp;&nbsp; <a href="deleteActivity?id=<c:out value='${userActivity.id}' />">Delete</a></td>
                 </tr>

@@ -41,10 +41,10 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> getById(int userId) {
-        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?;";
+        final String query = String.format("SELECT * FROM " + TABLE_NAME + " WHERE id = %d;", userId);
         User user = null;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setLong(1, userId);
+//            statement.setInt(1, userId);
 
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
@@ -63,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> add(@NotNull User user) throws UserUniqueViolationException {
-        final String query = "INSERT INTO " + TABLE_NAME + "(name, surname) VALUES (?, ?);";
+        final String query = "INSERT INTO " + TABLE_NAME + " (name, surname) VALUES (?, ?);";
         User addedUser = null;
         try (PreparedStatement statement = this.connection.prepareStatement(query,
                 ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
@@ -97,7 +97,7 @@ public class UserDAOImpl implements UserDAO {
             if (user.getId() == 0) {
                 throw new EmptyIdException();
             }
-            statement.setLong(4, user.getId());
+            statement.setLong(3, user.getId());
 
             updatedRowsCount = statement.executeUpdate();
         } catch (SQLException e) {
@@ -111,10 +111,10 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public int remove(int userId) throws EmptyIdException {
-        final String query = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
+        final String query = String.format("DELETE FROM " + TABLE_NAME + " WHERE id = %d;", userId);
         int deletedRowsCount = 0;
         try (PreparedStatement statement = this.connection.prepareStatement(query)) {
-            statement.setLong(1, userId);
+//            statement.setLong(1, userId);
 
             deletedRowsCount = statement.executeUpdate();
         } catch (SQLException e) {

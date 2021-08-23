@@ -22,7 +22,7 @@ public class AddUserServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try {
-            getServletContext().getRequestDispatcher(req.getContextPath() + "/add.jsp").forward(req, resp);
+            getServletContext().getRequestDispatcher(req.getContextPath() + "/add").forward(req, resp);
         } catch (Exception e) {
             getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);
         }
@@ -39,7 +39,7 @@ public class AddUserServlet extends HttpServlet {
                 String surname = req.getParameter("surname");
                 userDao.add(new User(name, surname));
 
-                getServletContext().getRequestDispatcher("/users.jsp").forward(req, resp);
+                resp.sendRedirect(req.getContextPath() + "/users");
             } catch (Exception e) {
                 e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);

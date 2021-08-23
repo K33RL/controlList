@@ -43,12 +43,12 @@
                         </h2>
                     <fieldset class="form-group">
                         <label>User Name <input type="text" class="form-control" name="name"
-                                                required="required" value=${requestScope.user.name}></label>
+                                                required="required" value=${requestScope.user.get().name}></label>
                     </fieldset>
 
                     <fieldset class="form-group">
                         <label>User Surname <input type="text" class="form-control" name="surname"
-                                                         value=${requestScope.user.surname}></label>
+                                                         value=${requestScope.user.get().surname}></label>
 
                     <button type="submit" class="btn btn-success">Save</button>
                         </fieldset>

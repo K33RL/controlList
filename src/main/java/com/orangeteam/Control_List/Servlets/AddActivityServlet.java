@@ -31,7 +31,7 @@ public class AddActivityServlet extends HttpServlet {
                 Optional<User> user = userDao.getById(user_id);
                 req.setAttribute("user", user);
                 req.setAttribute("id", user_id);
-                getServletContext().getRequestDispatcher(req.getContextPath() + "/create.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher(req.getContextPath() + "/create").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);

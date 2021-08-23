@@ -30,7 +30,7 @@ public class EditActivityServlet extends HttpServlet {
                 int id = Integer.parseInt(req.getParameter("id"));
                 Optional<Activity> activity = activityDAO.getById(id);
                 req.setAttribute("activity", activity);
-                getServletContext().getRequestDispatcher(req.getContextPath() + "/change.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher(req.getContextPath() + "/change").forward(req, resp);
             } catch (Exception e) {
                 e.printStackTrace();
                 getServletContext().getRequestDispatcher("/404.jsp").forward(req, resp);

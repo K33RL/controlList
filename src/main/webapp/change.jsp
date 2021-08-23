@@ -40,17 +40,17 @@
                 Edit activity
             </h2>
 
-            <input type="hidden" name="id" value=${requestScope.user.id}>
+            <input type="hidden" name="id" value=${requestScope.user.get().id}>
 
           <fieldset class="form-group">
             <label>Time <input type="time" class="form-control" name="time"
-                               required="required" value=${requestScope.activity.time}></label>
+                               required="required" value=${requestScope.activity.get().durationMin}></label>
 
           </fieldset>
 
           <fieldset class="form-group">
             <label>Description <input type="text" class="form-control"
-                                      name="description" value=${requestScope.activity.description}></label>
+                                      name="description" value=${requestScope.activity.get().description}></label>
 
 
           </fieldset>
